@@ -1,0 +1,22 @@
+# Entornos Virtuales y Caches de Python
+venv/
+*.pyc
+__pycache__/
+.env
+*env/
+env/
+
+# Archivos Generados por el Proyecto
+encodings.pickle
+
+# Archivos de IDE/Editor
+.idea/
+.vscode/
+*.swp
+
+# Archivos del Sistema Operativo
+.DS_Store
+Thumbs.db
+
+# Carpeta Dataset (OPCIONAL - ¡Decide tú!)
+dataset/
