@@ -9,6 +9,7 @@ Un proyecto de portfolio que implementa un sistema de reconocimiento facial en t
 ## Demostración en Vivo
 
 [![Demostración del Reconocimiento Facial en Tiempo Real](https://img.youtube.com/vi/5EQtyfF96YI/hqdefault.jpg)](https://youtu.be/5EQtyfF96YI?si=xlvxFV462mBWhDn6 "Haz clic para ver la demo en YouTube")
+[![Demostración del Reconocimiento Facial en Tiempo Real con dos personas (yo y mi hermano)](https://img.youtube.com/vi/kMe1ROiPMO4/hqdefault.jpg)](https://youtu.be/kMe1ROiPMO4 "Haz clic para ver la demo en YouTube")
 
 *Haz clic en la imagen para ver una demostración en video del sistema en acción en YouTube.*
 
