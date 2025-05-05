@@ -57,5 +57,6 @@ with open(output_file, "wb") as f:
     f.write(pickle.dumps(data))
 
 end_time = time.time()
+# Me gusta saber cuanto tarda mi ordenador en hacer las cosas
 print(f"[INFO] Codificación completada en {end_time - start_time:.2f} segundos.")
 print(f"[INFO] Encodings guardados en {output_file}")

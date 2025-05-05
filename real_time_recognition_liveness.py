@@ -5,21 +5,21 @@ import pickle
 import time
 from scipy.spatial import distance as dist # Para EAR
 
-# --- Parámetros Configurables ---
+# --- Parámetros configurables ---
 ENCODINGS_PATH = "encodings.pickle"
-DETECTION_MODEL = 'cnn' # 'hog' o 'cnn'
+DETECTION_MODEL = 'cnn' # 'hog' o 'cnn'. CNN suele tirar de gráfica, piénsatelo bien
 DETECTION_INTERVAL = 3 # Detectar cada N frames
 CONFIDENCE_THRESHOLD = 0.55 # Distancia máxima para reconocer (más bajo = más estricto)
 FRAME_SCALE = 0.50 # Escala de procesamiento (más pequeño = más rápido)
 TRACKER_TYPE = "CSRT" # 'CSRT', 'KCF'
 
-# Parámetros de Liveness (EAR)
+# Parámetros de liveness (EAR)
 EAR_THRESHOLD = 0.25
 EAR_CONSEC_FRAMES_DETECT = 3
 EAR_CONSEC_FRAMES_LIVE = 50
 LIVENESS_CHECKS_NEEDED = 2
 
-# Parámetros Visuales y Explicabilidad
+# Parámetros visuales y explicabilidad
 BOX_THICKNESS = 1
 BOX_PADDING = 15
 KNOWN_COLOR = (150, 255, 0) # Verde lima
@@ -32,13 +32,14 @@ show_explainability = True # Estado inicial del toggle (True para mostrar XAI)
 # --- Funciones Auxiliares --- (calculate_ear, create_tracker, calculate_iou)
 
 def calculate_ear(eye):
-    A = dist.euclidean(eye[1], eye[5])
-    B = dist.euclidean(eye[2], eye[4])
-    C = dist.euclidean(eye[0], eye[3])
-    ear = (A + B) / (2.0 * C) if C > 0 else 0.0 # Evitar division por cero
-    return ear
+    a = dist.euclidean(eye[1], eye[5])
+    b = dist.euclidean(eye[2], eye[4])
+    c = dist.euclidean(eye[0], eye[3])
+    result = (a + b) / (2.0 * c) if c > 0 else 0.0 # Evitar division por cero
+    return result
 
 def create_tracker(tracker_type):
+    # El tracker sigue a la persona. Así dibujaremos el cuadrado a pesar de que se esté moviendo
     if tracker_type == 'CSRT':
         return cv2.TrackerCSRT_create()
     elif tracker_type == 'KCF':
@@ -108,7 +109,7 @@ while True:
 
     current_boxes_ids = []
 
-    # --- Decidir si Detectar o Trackear ---
+    # --- Decidir si detectar o trackear ---
     if frame_count % DETECTION_INTERVAL == 0:
         print(f"[INFO] Frame {frame_count}: Detectando...")
         face_locations = face_recognition.face_locations(rgb_small_frame, model=DETECTION_MODEL)
@@ -243,7 +244,7 @@ while True:
                   data['liveness_status'] = "Sospechoso" # Simplificado
 
 
-    # --- Dibujar Resultados ---
+    # --- Dibujar resultados ---
     frame_draw = frame.copy()
     faces_to_draw = list(tracked_faces.keys())
     for face_id in faces_to_draw:
@@ -292,7 +293,7 @@ while True:
         cv2.rectangle(frame_draw, (pad_left, pad_top - th - 5), (pad_left + tw, pad_top), box_color, -1)
         cv2.putText(frame_draw, display_text, (pad_left + 3, pad_top - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, TEXT_COLOR, 1)
 
-        # Dibujar Landmarks si la explicabilidad está activada
+        # Dibujar landmarks si la explicabilidad está activada
         if show_explainability and landmarks:
             lm_color = LIVE_COLOR if liveness == "Vivo" else box_color
             for feature, points in landmarks.items():
@@ -300,7 +301,7 @@ while True:
                       cv2.circle(frame_draw, (x, y), LANDMARK_RADIUS, lm_color, -1)
 
 
-    # --- Manejo de Teclas ---
+    # --- Manejo de teclas ---
     key = cv2.waitKey(1) & 0xFF
 
     # Salir con 'q'
@@ -315,7 +316,7 @@ while True:
 
 
     frame_count += 1
-    cv2.imshow('Reconocimiento Facial (Q: Salir, E: Toggle XAI)', frame_draw)
+    cv2.imshow('Reconocimiento facial (Q: Salir, E: Toggle XAI)', frame_draw)
 
 
 # --- Limpieza Final ---
