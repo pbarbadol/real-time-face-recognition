@@ -6,14 +6,14 @@
 
 Un proyecto de portfolio que implementa un sistema de reconocimiento facial en tiempo real utilizando Python, OpenCV y `face_recognition`, incorporando características avanzadas como tracking de objetos, detección básica de vida (anti-spoofing) y elementos de explicabilidad (XAI).
 
-## Demostración en Vivo
+## Demostración en vivo
 
 [![Demostración del Reconocimiento Facial en Tiempo Real](https://img.youtube.com/vi/5EQtyfF96YI/hqdefault.jpg)](https://youtu.be/5EQtyfF96YI?si=xlvxFV462mBWhDn6 "Haz clic para ver la demo en YouTube")
 [![Demostración del Reconocimiento Facial en Tiempo Real con dos personas (yo y mi hermano)](https://img.youtube.com/vi/kMe1ROiPMO4/hqdefault.jpg)](https://youtu.be/kMe1ROiPMO4 "Haz clic para ver la demo en YouTube")
 
 *Haz clic en la imagen para ver una demostración en video del sistema en acción en YouTube.*
 
-## Características Principales
+## Características principales
 
 *   **Reconocimiento Facial en Tiempo Real:** Identifica caras conocidas desde un stream de video (webcam) comparándolas con una base de datos de encodings precalculados.
 *   **Tracking Facial Eficiente:** Utiliza trackers de OpenCV (CSRT por defecto) para seguir caras entre detecciones completas, optimizando el rendimiento. Detecta caras solo cada N frames (`DETECTION_INTERVAL`).
@@ -41,20 +41,20 @@ Un proyecto de portfolio que implementa un sistema de reconocimiento facial en t
     *   (Windows) Puede ser necesario instalar C++ Build Tools desde Visual Studio Installer si la instalación de `dlib` falla.
     *   `cmake` (puede instalarse vía pip o conda: `pip install cmake` o `conda install cmake`).
 
-2.  **Clonar el Repositorio:**
+2.  **Clonar el repositorio:**
     ```bash
     git clone https://github.com/tu_usuario/tu_repositorio.git
     cd tu_repositorio
     ```
 
-3.  **Crear y Activar Entorno Conda:**
+3.  **Crear y activar entorno conda:**
     ```bash
     conda create --name face_rec_env python=3.9 -y
     conda activate face_rec_env
     ```
 
-4.  **Instalar Dependencias:**
-    *   **Opción A (Recomendado: Usando `requirements.txt`):**
+4.  **Instalar dependencias:**
+    *   **Opción A (Recomendado: usando `requirements.txt`):**
         *   Crea un archivo `requirements.txt` con el siguiente contenido:
             ```txt
             numpy
@@ -78,7 +78,7 @@ Un proyecto de portfolio que implementa un sistema de reconocimiento facial en t
         ```
         *(Nota: `face_recognition` intentará instalar `dlib` si no lo encuentra)*
 
-## Preparación del Dataset
+## Preparación del dataset
 
 1.  Crea una carpeta llamada `dataset` en la raíz del proyecto.
 2.  Dentro de `dataset`, crea una subcarpeta para cada persona que quieras reconocer. El nombre de la subcarpeta será el nombre que se mostrará.
@@ -88,7 +88,7 @@ Un proyecto de portfolio que implementa un sistema de reconocimiento facial en t
 
 ## Uso
 
-1.  **Codificar Caras Conocidas:**
+1.  **Codificar caras conocidas:**
     *   Abre tu terminal (con el entorno `face_rec_env` activado).
     *   Ejecuta el script para procesar las imágenes del `dataset` y crear el archivo de encodings:
         ```bash
@@ -96,20 +96,20 @@ Un proyecto de portfolio que implementa un sistema de reconocimiento facial en t
         ```
     *   Esto generará un archivo `encodings.pickle`. Debes re-ejecutar este script cada vez que añadas/cambies imágenes en el `dataset`.
 
-2.  **Ejecutar Reconocimiento en Tiempo Real:**
+2.  **Ejecutar reconocimiento en tiempo real:**
     *   Ejecuta el script principal:
         ```bash
         python real_time_recognition_toggle_xai.py
         ```
     *   Se abrirá una ventana mostrando el video de tu webcam.
     *   Las caras detectadas se mostrarán con una caja delimitadora e información.
-    *   **Teclas Interactivas:**
+    *   **Teclas interactivas:**
         *   `q`: Salir de la aplicación.
         *   `e`: Activar/Desactivar las funciones de explicabilidad (landmarks y detalles de desconocidos).
 
-## ¿Cómo Funciona? (Pipeline)
+## ¿Cómo funciona? (Pipeline)
 
-1.  **Captura y Preprocesamiento:** Se lee un frame de la webcam y se redimensiona (`FRAME_SCALE`) para acelerar el procesamiento.
+1.  **Captura y preprocesamiento:** Se lee un frame de la webcam y se redimensiona (`FRAME_SCALE`) para acelerar el procesamiento.
 2.  **Detección / Tracking:**
     *   Cada `DETECTION_INTERVAL` frames:
         *   Se detectan caras en el frame redimensionado (`face_recognition.face_locations`).
@@ -144,12 +144,12 @@ Puedes ajustar varios parámetros al inicio del script `real_time_recognition_to
 
 ## Limitaciones
 
-*   **Liveness Básico:** La detección basada en EAR es simple y puede ser engañada (ej., con videos o si la persona no parpadea normalmente). No detecta ataques con máscaras o fotos de alta calidad.
+*   **Liveness básico:** La detección basada en EAR es simple y puede ser engañada (ej., con videos o si la persona no parpadea normalmente). No detecta ataques con máscaras o fotos de alta calidad.
 *   **Sensibilidad:** El rendimiento depende de la iluminación, ángulo de la cara, oclusiones (gafas de sol, mascarillas) y calidad de las imágenes del dataset.
 *   **Rendimiento:** El tracking ayuda, pero procesar múltiples caras o usar `cnn` puede ser lento sin una GPU potente.
 *   **Escalabilidad:** La comparación lineal con los encodings conocidos no escala bien a miles de identidades (se necesitaría ANN como Faiss/Annoy).
 
-## Posibles Mejoras Futuras
+## Posibles mejoras futuras
 
 *   Implementar métricas de evaluación (FAR/FRR).
 *   Integrar modelos de embedding SOTA (ArcFace, Facenet).
